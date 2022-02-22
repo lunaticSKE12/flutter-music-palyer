@@ -21,6 +21,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  void changeMusic() {
+    print('changed');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,6 +85,7 @@ class _HomeState extends State<Home> {
               Expanded(
                   child: Player(
                 music: 'song.mp3',
+                changeMusic: changeMusic,
               ))
             ],
           ),

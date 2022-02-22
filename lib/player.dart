@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class Player extends StatefulWidget {
   final String music;
-  Player({required this.music});
+  final Function changeMusic;
+  Player({required this.music, required this.changeMusic});
   @override
   _PlayerState createState() => _PlayerState();
 }
@@ -98,7 +99,7 @@ class _PlayerState extends State<Player> {
             IconButton(
               iconSize: 50,
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () => widget.changeMusic(),
               icon: Icon(Icons.skip_previous),
             ),
             ClipOval(
@@ -123,7 +124,7 @@ class _PlayerState extends State<Player> {
             IconButton(
               iconSize: 50,
               color: Colors.white,
-              onPressed: () {},
+              onPressed: () => widget.changeMusic(),
               icon: Icon(Icons.skip_next),
             ),
           ],
