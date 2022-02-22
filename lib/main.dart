@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './player.dart';
 
 void main() => runApp(MyApp());
 
@@ -71,12 +72,13 @@ class _HomeState extends State<Home> {
                       style: TextStyle(
                         color: Colors.amber,
                         fontSize: 10,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
+              Expanded(child: Player())
             ],
           ),
         ),
