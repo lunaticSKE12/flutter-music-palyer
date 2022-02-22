@@ -1,15 +1,30 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 class Player extends StatefulWidget {
-  const Player({Key? key}) : super(key: key);
-
+  final String music;
+  Player({required this.music});
   @override
   _PlayerState createState() => _PlayerState();
 }
 
 class _PlayerState extends State<Player> {
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
+  void init() {
+    assetsAudioPlayer.open(Audio("assets/${widget.music}"), autoStart: false);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(widget.music);
     return Column(
       children: [
         Slider(

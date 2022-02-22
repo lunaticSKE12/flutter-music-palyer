@@ -78,7 +78,10 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ),
-              Expanded(child: Player())
+              Expanded(
+                  child: Player(
+                music: 'song.mp3',
+              ))
             ],
           ),
         ),
