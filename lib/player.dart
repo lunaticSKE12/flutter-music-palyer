@@ -23,8 +23,8 @@ class _PlayerState extends State<Player> {
     });
   }
 
-  void stop() {
-    assetsAudioPlayer.stop();
+  void pause() {
+    assetsAudioPlayer.pause();
     setState(() {
       isPlaying = false;
     });
@@ -36,7 +36,22 @@ class _PlayerState extends State<Player> {
       autoStart: false,
     );
     duration = assetsAudioPlayer.current.value!.audio.duration;
-    print(duration);
+    // print(duration);
+
+    assetsAudioPlayer.currentPosition.listen((event) {
+      // print(event);
+      setState(() {
+        position = event;
+      });
+    });
+  }
+
+  void seeking(int sec) {
+    setState(() {
+      position = Duration(seconds: sec);
+    });
+
+    assetsAudioPlayer.seek(position);
   }
 
   @override
@@ -55,19 +70,21 @@ class _PlayerState extends State<Player> {
           activeColor: Colors.amber,
           thumbColor: Colors.red,
           inactiveColor: Colors.grey.withOpacity(0.2),
-          value: 10,
-          max: 100,
-          onChanged: (double value) {},
+          value: position.inSeconds.toDouble(),
+          max: duration.inSeconds.toDouble(),
+          onChanged: (double value) {
+            seeking(value.toInt());
+          },
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '0.0',
+              '${position.inMinutes}:${position.inSeconds.remainder(60)}',
               style: TextStyle(color: Colors.grey),
             ),
             Text(
-              '${duration.inMinutes} : ${duration.inSeconds.remainder(60)}',
+              '${duration.inMinutes}:${duration.inSeconds.remainder(60)}',
               style: TextStyle(color: Colors.grey),
             ),
           ],
@@ -90,7 +107,7 @@ class _PlayerState extends State<Player> {
                 child: InkWell(
                   splashColor: Colors.blue,
                   onTap: () {
-                    isPlaying ? stop() : play();
+                    isPlaying ? pause() : play();
                   },
                   child: Padding(
                     padding: EdgeInsets.all(6),
