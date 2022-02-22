@@ -13,22 +13,23 @@ class _PlayerState extends State<Player> {
   Duration duration = Duration();
   Duration position = Duration();
 
-  bool isPlaying = false;
+  // bool isPlaying = false;
+  PlayerState isPlaying = PlayerState.pause;
 
   final assetsAudioPlayer = AssetsAudioPlayer();
 
   void play() {
     assetsAudioPlayer.play();
-    setState(() {
-      isPlaying = true;
-    });
+    // setState(() {
+    //   isPlaying = true;
+    // });
   }
 
   void pause() {
     assetsAudioPlayer.pause();
-    setState(() {
-      isPlaying = false;
-    });
+    // setState(() {
+    //   isPlaying = false;
+    // });
   }
 
   void init() async {
@@ -44,6 +45,13 @@ class _PlayerState extends State<Player> {
       setState(() {
         position = event;
       });
+    });
+
+    assetsAudioPlayer.playerState.listen((event) {
+      setState(() {
+        isPlaying = event;
+      });
+      // print(event);
     });
   }
 
@@ -108,12 +116,14 @@ class _PlayerState extends State<Player> {
                 child: InkWell(
                   splashColor: Colors.blue,
                   onTap: () {
-                    isPlaying ? pause() : play();
+                    isPlaying == PlayerState.play ? pause() : play();
                   },
                   child: Padding(
                     padding: EdgeInsets.all(6),
                     child: Icon(
-                      isPlaying ? Icons.pause : Icons.play_arrow,
+                      isPlaying == PlayerState.play
+                          ? Icons.pause
+                          : Icons.play_arrow,
                       size: 62,
                       color: Colors.white,
                     ),
