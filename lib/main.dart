@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 40, bottom: 8),
+                margin: EdgeInsets.only(top: 40, bottom: 40),
                 child: Column(
                   children: [
                     Text(
