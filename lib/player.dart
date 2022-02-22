@@ -9,10 +9,34 @@ class Player extends StatefulWidget {
 }
 
 class _PlayerState extends State<Player> {
+  Duration duration = Duration();
+  Duration position = Duration();
+
+  bool isPlaying = false;
+
   final assetsAudioPlayer = AssetsAudioPlayer();
 
-  void init() {
-    assetsAudioPlayer.open(Audio("assets/${widget.music}"), autoStart: false);
+  void play() {
+    assetsAudioPlayer.play();
+    setState(() {
+      isPlaying = true;
+    });
+  }
+
+  void stop() {
+    assetsAudioPlayer.stop();
+    setState(() {
+      isPlaying = false;
+    });
+  }
+
+  void init() async {
+    await assetsAudioPlayer.open(
+      Audio("assets/${widget.music}"),
+      autoStart: false,
+    );
+    duration = assetsAudioPlayer.current.value!.audio.duration;
+    print(duration);
   }
 
   @override
@@ -24,7 +48,7 @@ class _PlayerState extends State<Player> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.music);
+    // print(widget.music);
     return Column(
       children: [
         Slider(
@@ -43,7 +67,7 @@ class _PlayerState extends State<Player> {
               style: TextStyle(color: Colors.grey),
             ),
             Text(
-              '0.0',
+              '${duration.inMinutes} : ${duration.inSeconds.remainder(60)}',
               style: TextStyle(color: Colors.grey),
             ),
           ],
@@ -65,11 +89,13 @@ class _PlayerState extends State<Player> {
                 color: Colors.grey.withOpacity(0.2),
                 child: InkWell(
                   splashColor: Colors.blue,
-                  onTap: () {},
+                  onTap: () {
+                    isPlaying ? stop() : play();
+                  },
                   child: Padding(
                     padding: EdgeInsets.all(6),
                     child: Icon(
-                      Icons.play_arrow,
+                      isPlaying ? Icons.pause : Icons.play_arrow,
                       size: 62,
                       color: Colors.white,
                     ),
